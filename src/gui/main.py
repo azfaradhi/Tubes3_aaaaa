@@ -1,8 +1,9 @@
-import sys
+import sys, os
 from PyQt5.QtWidgets import (
     QApplication, QMainWindow, QWidget, QHBoxLayout, QVBoxLayout,
     QScrollArea
 )
+from PyQt5.QtGui import QFontDatabase, QFont
 from PyQt5.QtCore import Qt
 from gui.components.sidebar import Sidebar
 from gui.components.result_view import ResultsPanel
@@ -47,6 +48,15 @@ class MainWindow(QMainWindow):
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)
+    
+    # ------------- font -------------
+    font_id = QFontDatabase.addApplicationFont(
+        os.path.join(os.path.dirname(__file__), "assets", "Poppins-Regular.ttf")
+    )
+    family = QFontDatabase.applicationFontFamilies(font_id)[0]
+    app.setFont(QFont(family, 10))
+
+
     window = MainWindow()
     window.show()
     sys.exit(app.exec_())
