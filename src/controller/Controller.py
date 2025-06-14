@@ -44,22 +44,23 @@ class Controller:
                 document_text = self.mapPathAndData.get(path, '')
                 if algorithm == 'kmp':
                     self.kmp.set_text(document_text)
-                    foundedList = self.kmp.kmp_algorithm(pattern.lower())
+                    foundedList = self.kmp.find_multiple_keywords_kmp(pattern.lower())
                 elif algorithm == 'booye':
                     self.booye.set_text(document_text)
-                    foundedList = self.booye.boyer_moore_algorithm(pattern.lower())
+                    foundedList = self.booye.find_multiple_keywords_bm(pattern.lower())
                 elif algorithm == 'aho':
-                    self.aho.set_text(document_text)
-                    self.aho.set_patterns(pattern.lower())
-                    foundedList = self.aho.search_patterns()
+                    self.aho.set_pattern(pattern.lower())
+                    foundedList = self.aho.search(document_text)
 
                 if foundedList:
                     results[i] = {
                         "applicant_id": data.get('applicant_id', ''),
-                        "count": len(foundedList)
+                        "cv_path": path,
+                        "name": f"{data.get('first_name', '')} {data.get('last_name', '')}",
+                        "count": len(foundedList),
+                        "keywords_count": foundedList
                     }
 
-        # Jika tidak ada hasil dari KMP, coba pakai Levenshtein
         if not results:
             print(f"Pattern '{pattern}' not found in any documents using KMP. Trying fuzzy matching...")
             for i, data in enumerate(self.allData):
