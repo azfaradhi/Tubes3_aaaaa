@@ -109,10 +109,64 @@ class Levenshtein:
         return matches
 
     @staticmethod
-    def fuzzy_compare_percentage(str1, str2, threshold=80):
-        results = Levenshtein.fuzzy_compare(str1, str2, threshold/100)
+    def search_levenhstein(str1, str2):
+        results = Levenshtein.fuzzy_compare(str1, str2, 0.75)
         return [{
             'start': match['start'],
             'length': match['length'],
             'similarity': int(match['similarity'] * 100)
         } for match in results]
+    
+    @staticmethod
+    def search_levenhstein_from_long_string(str1, text, threshold=0.75):
+        if not str1 or not text:
+            return []
+
+        str1 = str1.lower().strip()
+        text = text.lower().strip()
+
+        pattern_len = len(str1)
+        matches = []
+
+        window_range = range(max(1, pattern_len - 3), pattern_len + 4)
+        text_len = len(text)
+
+        for window_size in window_range:
+            for i in range(text_len - window_size + 1):
+                substring = text[i:i + window_size]
+
+                if substring == str1:
+                    continue
+
+                distance = Levenshtein.distance(str1, substring)
+                similarity = 1 - (distance / max(len(substring), pattern_len))
+
+                if similarity >= threshold:
+                    is_duplicate = False
+                    for j, match in enumerate(matches):
+                        # Jika overlap dan similarity baru lebih bagus, replace
+                        if (i < match['start'] + match['length'] and i + window_size > match['start']):
+                            if similarity > match['similarity']:
+                                matches[j] = {
+                                    'start': i,
+                                    'length': window_size,
+                                    'similarity': similarity
+                                }
+                            is_duplicate = True
+                            break
+
+                    if not is_duplicate:
+                        matches.append({
+                            'start': i,
+                            'length': window_size,
+                            'similarity': similarity
+                        })
+
+        matches.sort(key=lambda x: x['similarity'], reverse=True)
+
+        return [{
+            'start': m['start'],
+            'length': m['length'],
+            'similarity': round(m['similarity'] * 100, 2),
+            'match_text': text[m['start']:m['start'] + m['length']]
+        } for m in matches]
