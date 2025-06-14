@@ -71,6 +71,7 @@ class BoyerMoore:
             if not keyword:
                 continue
             match_indices = self.boyer_moore_algorithm(keyword)
-            keyword_counts[keyword] = len(match_indices)
+            if (len(match_indices) > 0):
+                keyword_counts[keyword] = len(match_indices)
             
         return keyword_counts

@@ -43,8 +43,10 @@ class ResultsPanel(QWidget):
         for i, (key, value) in enumerate(data.items()):
             card = Card(
                 self.page_change, 
-                value,
-                f"Card {key+1}"
+                value['name'],
+                value['cv_path'],
+                value['keywords_count'],
+                value['count']
             )
             row = i // 2
             col = i % 2

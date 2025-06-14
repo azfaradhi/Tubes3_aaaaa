@@ -61,6 +61,7 @@ class KnuthMorris:
                 continue
             match_indices = self.kmp_algorithm(keyword)
             
-            keyword_counts[keyword] = len(match_indices)
+            if (len(match_indices) > 0):
+                keyword_counts[keyword] = len(match_indices)
             
         return keyword_counts

@@ -34,5 +34,6 @@ class AnalyzePage(QWidget):
 
     def submit(self):
         (keyword, toggle, maxs) = self.sidebar.get_parameter()
-        self.data = self.controller.searchQuery(keyword, toggle)
+        self.data = self.controller.searchQuery(keyword, toggle, maxs)
+        print(self.data)
         self.results.update_result(self.data)

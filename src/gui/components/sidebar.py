@@ -121,5 +121,5 @@ class Sidebar(QWidget):
         return (
             self.keyword_input.text(),
             self.toggle.get_selected_option(),
-            self.text_input.text()
+            int(self.text_input.text())
         )

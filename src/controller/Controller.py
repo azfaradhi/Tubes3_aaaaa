@@ -36,7 +36,7 @@ class Controller:
                     text = self.mapPathAndData[path]
                 print(f"Processing {i+1}/{len(self.allData)}: {path}")
 
-    def searchQuery(self, pattern: str, algorithm: str):
+    def searchQuery(self, pattern: str, algorithm: str, max: int):
         results = {}
         for i, data in enumerate(self.allData):
             if i < 10:
@@ -57,7 +57,7 @@ class Controller:
                         "applicant_id": data.get('applicant_id', ''),
                         "cv_path": path,
                         "name": f"{data.get('first_name', '')} {data.get('last_name', '')}",
-                        "count": len(foundedList),
+                        "count": sum(foundedList.values()),
                         "keywords_count": foundedList
                     }
 
@@ -76,7 +76,9 @@ class Controller:
                             "count": len(foundedList)
                         }
 
-        return results
+        sorted_list = sorted(results.items(), key=lambda item: item[1]['count'], reverse=True)
+
+        return dict(sorted_list[:max])
     
     def searchhh(self, text,pattern):
         self.kmp.set_text(text)
