@@ -1,8 +1,8 @@
-from PyQt5.QtWidgets import QWidget, QLabel, QVBoxLayout, QHBoxLayout, QFrame
+from PyQt5.QtWidgets import QWidget, QLabel, QVBoxLayout, QHBoxLayout, QFrame, QPushButton
 from PyQt5.QtCore import Qt
 
 class Card(QWidget):
-    def __init__(self, title_text="Card Title"):
+    def __init__(self, page_change, title_text="Card Title"):
         super().__init__()
 
         # Force size to make sure style applies
@@ -27,6 +27,7 @@ class Card(QWidget):
         # Header
         title_bar = QHBoxLayout()
         title = QLabel(title_text)
+        title.setStyleSheet("color: black;")
 
         title_bar.addWidget(title)
         title_bar.addStretch()
@@ -40,7 +41,11 @@ class Card(QWidget):
 
         # Footer
         footer = QHBoxLayout()
-        for _ in range(3):
-            icon = QLabel("a")
-            footer.addWidget(icon)
+
+
+        detail_button = QPushButton("Detail")
+        detail_button.setMaximumWidth(100)
+        detail_button.setStyleSheet("color: black;")
+        detail_button.clicked.connect(lambda: page_change(2))
+        footer.addWidget(detail_button)
         inner_layout.addLayout(footer)

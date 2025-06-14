@@ -1,12 +1,13 @@
+# main.py
 import sys, os
 from PyQt5.QtWidgets import (
-    QApplication, QMainWindow, QWidget, QHBoxLayout, QVBoxLayout,
-    QScrollArea
+    QApplication, QMainWindow, QWidget, QVBoxLayout, QStackedWidget
 )
 from PyQt5.QtGui import QFontDatabase, QFont
-from PyQt5.QtCore import Qt
-from gui.components.sidebar import Sidebar
-from gui.components.result_view import ResultsPanel
+from gui.pages.analyze_page import AnalyzePage
+from gui.pages.landing_page import LandingPage
+from gui.pages.detail_page import DetailPage
+
 
 class MainWindow(QMainWindow):
     def __init__(self):
@@ -14,48 +15,41 @@ class MainWindow(QMainWindow):
         self.setWindowTitle("CV Analyzer ATS")
         self.resize(1000, 700)
 
-        container = QWidget()
-        container.setStyleSheet("background-color: #FFF8DC;")
+        outer_container = QWidget()
+        outer_container.setStyleSheet("background-color: #FFF8DC;")
+        outer_layout = QVBoxLayout(outer_container)
+        outer_layout.setContentsMargins(80, 80, 80, 80)
 
         central_widget = QWidget()
-        central_widget.setStyleSheet("background-color: #F4F4F4;")
+        central_widget.setStyleSheet("background-color: #F4F4F4; border-radius: 15px;")
+        central_layout = QVBoxLayout(central_widget)
 
-        main_layout = QVBoxLayout()
-        central_widget.setLayout(main_layout)
+        self.stack = QStackedWidget()
+        self.page_landing = LandingPage(self.change_page)
+        self.page_analyze = AnalyzePage(self.change_page)
+        self.page_detail = DetailPage(self.change_page)
 
-        container_layout = QVBoxLayout(container)
-        container_layout.setContentsMargins(80, 80, 80, 80)
-        container_layout.addWidget(central_widget)
+        self.stack.addWidget(self.page_landing)  # index 0
+        self.stack.addWidget(self.page_analyze)  # index 1
+        self.stack.addWidget(self.page_detail)   # index 2
 
-        content_layout = QHBoxLayout()
+        central_layout.addWidget(self.stack)
+        outer_layout.addWidget(central_widget)
 
-        sidebar = Sidebar()
+        self.setCentralWidget(outer_container)
 
-        scroll_area = QScrollArea()
-        scroll_area.setWidgetResizable(True)
-        results = ResultsPanel()
-        results.setStyleSheet("border: none;")
-        scroll_area.setWidget(results)
-        scroll_area.setStyleSheet("border: none;")
+    def change_page(self, index):
+        self.stack.setCurrentIndex(index)
 
-        content_layout.addWidget(sidebar)
-        content_layout.addWidget(scroll_area)
-
-        main_layout.addLayout(content_layout)
-
-        container.setLayout(main_layout)
-        self.setCentralWidget(container)
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)
-    
-    # ------------- font -------------
+
     font_id = QFontDatabase.addApplicationFont(
         os.path.join(os.path.dirname(__file__), "assets", "Poppins-Regular.ttf")
     )
     family = QFontDatabase.applicationFontFamilies(font_id)[0]
     app.setFont(QFont(family, 10))
-
 
     window = MainWindow()
     window.show()

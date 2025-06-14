@@ -1,5 +1,6 @@
 from PyQt5.QtWidgets import (
-    QWidget, QLabel, QVBoxLayout, QHBoxLayout, QFrame, QPushButton, QSizePolicy
+    QWidget, QLabel, QVBoxLayout, QHBoxLayout, QFrame, QPushButton, QSizePolicy,
+    QLineEdit
 )
 from PyQt5.QtCore import Qt, QPropertyAnimation, QPoint
 
@@ -34,11 +35,29 @@ class Sidebar(QWidget):
         self.sidebar_layout.addWidget(self.title)
 
         # ------------- Input Fields -------------
-        for _ in range(3):
-            placeholder = QFrame()
-            placeholder.setFixedHeight(30)
-            placeholder.setStyleSheet("background-color: #ccc; border-radius: 5px;")
-            self.sidebar_layout.addWidget(placeholder)
+        self.label = QLabel("Enter:")
+        self.text_input = QLineEdit()
+        self.text_input.setPlaceholderText("...")
+        self.text_input.setFixedHeight(30)
+        self.text_input.setStyleSheet("background-color: #ccc; border-radius: 5px;")
+        self.sidebar_layout.addWidget(self.label)
+        self.sidebar_layout.addWidget(self.text_input)
+        
+        self.label = QLabel("Enter:")
+        self.text_input = QLineEdit()
+        self.text_input.setPlaceholderText("...")
+        self.text_input.setFixedHeight(30)
+        self.text_input.setStyleSheet("background-color: #ccc; border-radius: 5px;")
+        self.sidebar_layout.addWidget(self.label)
+        self.sidebar_layout.addWidget(self.text_input)
+
+        self.label = QLabel("Enter:")
+        self.text_input = QLineEdit()
+        self.text_input.setPlaceholderText("...")
+        self.text_input.setFixedHeight(30)
+        self.text_input.setStyleSheet("background-color: #ccc; border-radius: 5px;")
+        self.sidebar_layout.addWidget(self.label)
+        self.sidebar_layout.addWidget(self.text_input)
 
         # ------------- Analyze button -------------
         self.upload_button = QPushButton("Analyze")

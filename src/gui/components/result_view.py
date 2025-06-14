@@ -3,7 +3,7 @@ from PyQt5.QtCore import Qt
 from gui.components.result_card import Card
 
 class ResultsPanel(QWidget):
-    def __init__(self):
+    def __init__(self, page_change):
         super().__init__()
         outer_layout = QVBoxLayout(self)
 
@@ -30,7 +30,7 @@ class ResultsPanel(QWidget):
 
         # Add more than 4 cards to demonstrate scrolling
         for i in range(10):
-            card = Card(f"Card {i+1}")
+            card = Card(page_change, f"Card {i+1}")
             row = i // 2
             col = i % 2
             card_grid.addWidget(card, row, col)
