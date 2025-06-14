@@ -3,20 +3,25 @@ import fitz
 import re
 
 class PDFTextConverter:
-    def __init__(self, pdf_path):
+    def __init__(self):
+        self.pdf_path = ""
+
+    def set_pdf_path(self, pdf_path):
+        if not os.path.exists(pdf_path):
+            raise FileNotFoundError(f"PDF file {pdf_path} does not exist.")
         self.pdf_path = pdf_path
 
-    def to_text_raw(self, txt_output_path):
+    def to_text_raw(self, pdf_path: str) -> str:
+        self.set_pdf_path(pdf_path)
         doc = fitz.open(self.pdf_path)
-        os.makedirs(os.path.dirname(txt_output_path), exist_ok=True)
-        with open(txt_output_path, "w", encoding="utf-8") as f:
-            for page in doc:
-                text = page.get_text()
-                f.write(text + "\n")
+        full_text = ""
+        for page in doc:
+            text = page.get_text()
+            full_text += text + "\n"
         doc.close()
-        print(f"{self.pdf_path} -> {txt_output_path} (raw)")
+        return full_text
 
-    def to_text_normalized(self, txt_output_path):
+    def to_text_normalized(self) -> str:
         doc = fitz.open(self.pdf_path)
         full_text = ""
         for page in doc:
@@ -27,27 +32,4 @@ class PDFTextConverter:
         doc.close()
 
         full_text = ' '.join(full_text.split())
-
-        os.makedirs(os.path.dirname(txt_output_path), exist_ok=True)
-        with open(txt_output_path, "w", encoding="utf-8") as f:
-            f.write(full_text)
-        print(f"{self.pdf_path} -> {txt_output_path} (normalized)")
-
-# def convert_all_pdfs_in_folder(root_folder, output_root):
-#     for dirpath, dirnames, filenames in os.walk(root_folder):
-#         for filename in filenames:
-#             if filename.lower().endswith(".pdf"):
-#                 pdf_path = os.path.join(dirpath, filename)
-#                 relative_path = os.path.relpath(pdf_path, root_folder)
-
-#                 raw_output_path = os.path.join(output_root, "raw", os.path.splitext(relative_path)[0] + ".txt")
-#                 normalized_output_path = os.path.join(output_root, "normalized", os.path.splitext(relative_path)[0] + ".txt")
-
-#                 converter = PDFTextConverter(pdf_path)
-#                 converter.to_text_raw(raw_output_path)
-#                 converter.to_text_normalized(normalized_output_path)
-
-# if __name__ == "__main__":
-#     input_folder = "data"
-#     output_folder = "text"
-#     convert_all_pdfs_in_folder(input_folder, output_folder)
+        return full_text
