@@ -63,3 +63,24 @@ class BoyerMoore:
                 text_position += max(bad_char_shift_amt, good_suffix_shift_amt)
 
         return found_positions
+    
+    def find_multiple_keywords_bm(self, keywords_str: str):
+    
+            # 1. Pisahkan string input menjadi daftar keyword yang bersih.
+            keywords = [keyword.strip() for keyword in keywords_str.split(',')]
+            
+            # Inisialisasi dictionary untuk menyimpan hasil
+            keyword_counts = {}
+
+            # 2. Loop untuk setiap keyword dalam daftar
+            for keyword in keywords:
+                if not keyword:  # Lewati keyword kosong
+                    continue
+                
+                # 3. Panggil algoritma Boyer-Moore yang sudah ada untuk satu keyword
+                match_indices = self.boyer_moore_algorithm(keyword)
+                
+                # 4. Hitung jumlah hasil (panjang dari list) dan simpan
+                keyword_counts[keyword] = len(match_indices)
+                
+            return keyword_counts

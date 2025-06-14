@@ -50,3 +50,17 @@ class KnuthMorris:
                     i += 1
 
         return result_index
+
+    def find_multiple_keywords_kmp(self, keywords_str: str):
+            keywords = [keyword.strip() for keyword in keywords_str.split(',')]
+            
+            keyword_counts = {}
+
+            for keyword in keywords:
+                if not keyword:
+                    continue
+                match_indices = self.kmp_algorithm(keyword)
+                
+                keyword_counts[keyword] = len(match_indices)
+                
+            return keyword_counts
