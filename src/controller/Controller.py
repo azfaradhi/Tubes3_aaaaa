@@ -13,7 +13,7 @@ class Controller:
         self.pdf = PDFTextConverter()
         self.kmp = KnuthMorris()
         self.booye = BoyerMoore()
-        self.aho = AhoCorasick()
+        self.aho = AhoCorasick("APA")
         self.search = db_search(conn)
         self.allData = self.search.getAllData()
         self.mapPathAndData = {}
@@ -52,7 +52,7 @@ class Controller:
                     self.aho.set_text(document_text)
                     self.aho.set_patterns(pattern.lower())
                     foundedList = self.aho.search_patterns()
-                    
+
                 if foundedList:
                     results[i] = {
                         "applicant_id": data.get('applicant_id', ''),
