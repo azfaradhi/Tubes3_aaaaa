@@ -2,7 +2,8 @@ from PyQt5.QtWidgets import (
     QWidget, QLabel, QVBoxLayout, QHBoxLayout, QFrame, QPushButton, QSizePolicy,
     QLineEdit
 )
-from PyQt5.QtCore import Qt, QPropertyAnimation, QPoint
+from PyQt5.QtCore import Qt, QPropertyAnimation
+from gui.components.radio import RadioAlgorithm
 
 
 class Sidebar(QWidget):
@@ -35,15 +36,8 @@ class Sidebar(QWidget):
         self.sidebar_layout.addWidget(self.title)
 
         # ------------- Input Fields -------------
-        self.label = QLabel("Enter:")
-        self.text_input = QLineEdit()
-        self.text_input.setPlaceholderText("...")
-        self.text_input.setFixedHeight(30)
-        self.text_input.setStyleSheet("background-color: #ccc; border-radius: 5px;")
-        self.sidebar_layout.addWidget(self.label)
-        self.sidebar_layout.addWidget(self.text_input)
-        
-        self.label = QLabel("Enter:")
+        self.label = QLabel("Keywords:")
+        self.label.setStyleSheet("color: black")
         self.text_input = QLineEdit()
         self.text_input.setPlaceholderText("...")
         self.text_input.setFixedHeight(30)
@@ -51,7 +45,14 @@ class Sidebar(QWidget):
         self.sidebar_layout.addWidget(self.label)
         self.sidebar_layout.addWidget(self.text_input)
 
-        self.label = QLabel("Enter:")
+        self.label = QLabel("Pilih Algoritma:")
+        self.label.setStyleSheet("color: black")
+        self.toggle = RadioAlgorithm()
+        self.sidebar_layout.addWidget(self.label)
+        self.sidebar_layout.addWidget(self.toggle)
+
+        self.label = QLabel("Top Matches:")
+        self.label.setStyleSheet("color: black")
         self.text_input = QLineEdit()
         self.text_input.setPlaceholderText("...")
         self.text_input.setFixedHeight(30)
@@ -83,7 +84,6 @@ class Sidebar(QWidget):
                 outline: none;
             }
         """)
-
 
     def resizeEvent(self, event):
         super().resizeEvent(event)
