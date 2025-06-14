@@ -6,6 +6,7 @@ class ResultsPanel(QWidget):
     def __init__(self, page_change):
         super().__init__()
         outer_layout = QVBoxLayout(self)
+        self.page_change = page_change
 
         title = QLabel("Result")
         title.setAlignment(Qt.AlignCenter)
@@ -23,17 +24,29 @@ class ResultsPanel(QWidget):
         scroll_area.setStyleSheet("background: transparent;")
 
         content_widget = QWidget()
-        card_grid = QGridLayout(content_widget)
+        self.card_grid = QGridLayout(content_widget)
         content_widget.setStyleSheet("background: transparent;")
-        card_grid.setSpacing(20)
-        card_grid.setContentsMargins(10, 10, 10, 10)
-
-        # Add more than 4 cards to demonstrate scrolling
-        for i in range(10):
-            card = Card(page_change, f"Card {i+1}")
-            row = i // 2
-            col = i % 2
-            card_grid.addWidget(card, row, col)
+        self.card_grid.setSpacing(20)
+        self.card_grid.setContentsMargins(10, 10, 10, 10)
 
         scroll_area.setWidget(content_widget)
         outer_layout.addWidget(scroll_area)
+
+    def update_result(self, data):
+        print(data)
+        # Delete data sebelum
+        while self.card_grid.count():
+            child = self.card_grid.takeAt(0)
+            if child.widget():
+                child.widget().deleteLater()
+        
+        for i, (key, value) in enumerate(data.items()):
+            card = Card(
+                self.page_change, 
+                value,
+                f"Card {key+1}"
+            )
+            row = i // 2
+            col = i % 2
+            self.card_grid.addWidget(card, row, col)
+        return
