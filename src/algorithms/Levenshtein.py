@@ -170,3 +170,30 @@ class Levenshtein:
             'similarity': round(m['similarity'] * 100, 2),
             'match_text': text[m['start']:m['start'] + m['length']]
         } for m in matches]
+
+    @staticmethod
+    def find_multiple_keywords_fuzzy(keywords_str: str, text: str, threshold=0.75):
+        """
+        Mencari beberapa keyword secara fuzzy dan mengembalikan jumlah kemunculan
+        dalam format dictionary, mirip dengan fungsi pencarian lainnya.
+        """
+        # 1. Pisahkan string input menjadi daftar keyword
+        keywords = [keyword.strip() for keyword in keywords_str.split(',')]
+        
+        keyword_counts = {}
+
+        # 2. Loop untuk setiap keyword
+        for keyword in keywords:
+            if not keyword:
+                continue
+            
+            # 3. Panggil fungsi pencarian fuzzy yang sudah ada untuk satu keyword
+            fuzzy_matches = Levenshtein.search_levenhstein_from_long_string(
+                keyword, text, threshold
+            )
+            
+            # 4. Jika ada hasil, hitung jumlahnya dan simpan
+            if fuzzy_matches:
+                keyword_counts[keyword] = len(fuzzy_matches)
+                
+        return keyword_counts

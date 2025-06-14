@@ -92,11 +92,14 @@ class Controller:
                     path = data.get('cv_path', '')
                     document_text = self.mapPathAndData.get(path, '')
                     self.kmp.set_text(document_text)
-                    foundedList = Levenshtein.search_levenhstein_from_long_string(pattern.lower(), document_text)
+                    foundedList = Levenshtein.find_multiple_keywords_fuzzy(pattern.lower(), document_text)
 
                     if foundedList:
                         results[i] = {
                             "applicant_id": data.get('applicant_id', ''),
+                            "cv_path": path,
+                            "name": f"{data.get('first_name', '')} {data.get('last_name', '')}",
+                            "keywords_count": foundedList,
                             "count": len(foundedList)
                         }
 
