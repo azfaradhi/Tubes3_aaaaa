@@ -6,6 +6,21 @@ class db_search:
 
     def get_connection(self):
         return self.db_config
+    
+    def getAllData(self):
+        conn = self.get_connection()
+        cursor = conn.cursor(dictionary=True)
+        query = """
+        SELECT ap.*, ad.* 
+        FROM ApplicantProfile ap
+        JOIN ApplicationDetail ad ON ap.applicant_id = ad.applicant_id
+        """
+        cursor.execute(query)
+        results = cursor.fetchall()
+        cursor.close()
+        return results
+    
+    
     def getAllName(self):
         conn = self.get_connection()
         cursor = conn.cursor(dictionary=True)
