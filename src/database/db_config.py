@@ -10,7 +10,6 @@ def connect():
             database="cv_ats",
         )
         if conn.is_connected():
-            print("✅ Berhasil konek ke MySQL!")
             return conn
         else:
             return None

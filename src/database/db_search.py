@@ -12,7 +12,6 @@ class db_search:
         cursor.execute("SELECT applicant_id, first_name, last_name FROM ApplicantProfile")
         results = cursor.fetchall()
         cursor.close()
-        conn.close()
         return results
     
     def getNameByApplicantId(self, applicant_id: int):
@@ -21,7 +20,6 @@ class db_search:
         cursor.execute("SELECT first_name, last_name FROM ApplicantProfile WHERE applicant_id = %s", (applicant_id,))
         result = cursor.fetchone()
         cursor.close()
-        conn.close()
         return result
 
     def getAllDateOfBirth(self):
@@ -30,7 +28,6 @@ class db_search:
         cursor.execute("SELECT applicant_id, date_of_birth FROM ApplicantProfile")
         results = cursor.fetchall()
         cursor.close()
-        conn.close()
         return results
     
     
@@ -40,7 +37,6 @@ class db_search:
         cursor.execute("SELECT applicant_id, phone_number FROM ApplicantProfile")
         results = cursor.fetchall()
         cursor.close()
-        conn.close()
         return results
     
     def getPhoneNumberByApplicantId(self, applicant_id: int):
@@ -49,7 +45,6 @@ class db_search:
         cursor.execute("SELECT phone_number FROM ApplicantProfile WHERE applicant_id = %s", (applicant_id,))
         result = cursor.fetchone()
         cursor.close()
-        conn.close()
         return result
     
     def getAllApplicationDetails(self):
@@ -63,7 +58,6 @@ class db_search:
         cursor.execute(query)
         results = cursor.fetchall()
         cursor.close()
-        conn.close()
         return results
     
     def getApplicationDetailById(self, applicant_id: int):
@@ -78,5 +72,4 @@ class db_search:
         cursor.execute(query, (applicant_id,))
         result = cursor.fetchone()
         cursor.close()
-        conn.close()
         return result
