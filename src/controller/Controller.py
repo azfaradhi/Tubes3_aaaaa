@@ -1,30 +1,53 @@
 import json.scanner
-from database.db_search import *
-from algorithms.KnuthMorris import *
-from algorithms.Levenshtein import *
-from algorithms.BoyerMoore import *
-from algorithms.AhoCorasick import *
-from utils.normalize_pdf import *
+from src.database.db_search import *
+from src.algorithms.KnuthMorris import *
+from src.algorithms.Levenshtein import *
+from src.algorithms.BoyerMoore import *
+from src.algorithms.AhoCorasick import *
+from src.algorithms.ProfileEncyption import *
+from src.utils.normalize_pdf import *
 import json
 
-from algorithms.Regex import Regex
+from src.algorithms.Regex import Regex
 
 class Controller:
+
+    allData = []
     def __init__(self,conn):
         self.pdf = PDFTextConverter()
         self.kmp = KnuthMorris()
         self.booye = BoyerMoore()
         self.aho = AhoCorasick("APA")
         self.search = db_search(conn)
-        self.allData = self.search.getAllData()
+        Controller.allData = self.search.getAllData()
+        self.crypto = ProfileEncryption("kumalalasavesta")
+        self.decryptProfile(self.crypto)
         self.mapPathAndData = {}
         self.preProcessText()
-        print(f"Total applicants: {len(self.allData)}")
 
-    def getDataByIndex(self, index: int):
-        if 0 <= index < len(self.allData):
-            return self.allData[index]
+    def decrypt_safe(self,cipher_text_base64, cipher):
+        try:
+            raw_cipher = base64.b64decode(cipher_text_base64).decode('latin1')
+            return cipher.decrypt(raw_cipher)
+        except Exception as e:
+            print(f"[ERROR decoding/decrypting] {e}")
+            return ""
         
+    def decryptProfile(self, cipher):
+        for data in self.allData:
+            for field in ["first_name", "last_name", "phone_number", "address"]:
+                encrypted = data[field]
+                decrypted = self.decrypt_safe(encrypted, cipher)
+                if decrypted == "":
+                    print(f"[Decrypt failed] {field}: {encrypted}")
+                data[field] = decrypted
+
+        
+    @staticmethod
+    def getDataByIndex(index: int):
+        if 0 <= index < len(Controller.allData):
+            return Controller.allData[index]
+    
     def preProcessText(self):
         for i, data in enumerate(self.allData):
             if (i < 10):
