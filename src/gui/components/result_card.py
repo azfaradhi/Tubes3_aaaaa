@@ -74,7 +74,7 @@ class Card(QWidget):
             border-radius: 6px;
         """)
         detail_button.setMaximumWidth(100)
-        detail_button.clicked.connect(lambda: page_change(2))
+        detail_button.clicked.connect(lambda: page_change(2, self.path))
         footer.addWidget(detail_button)
 
         cv_button = QPushButton("View CV")

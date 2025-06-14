@@ -7,6 +7,7 @@ from algorithms.AhoCorasick import *
 from utils.normalize_pdf import *
 import json
 
+from algorithms.Regex import Regex
 
 class Controller:
     def __init__(self,conn):
@@ -83,3 +84,15 @@ class Controller:
     def searchhh(self, text,pattern):
         self.kmp.set_text(text)
         return self.kmp.kmp_algorithm(pattern)
+    
+    @staticmethod
+    def get_data(path: str):
+        pdf_converter = PDFTextConverter(max_workers=8)
+        pdf_converter.set_pdf_path(path)
+        text = pdf_converter.to_text_raw(path)
+        regex = Regex(text)
+        experience = regex.extract_experience()
+        education = regex.extract_education()
+        skill = regex.extract_skills()
+        print(education)
+        return (experience, education, skill)

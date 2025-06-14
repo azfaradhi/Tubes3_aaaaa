@@ -38,7 +38,9 @@ class MainWindow(QMainWindow):
 
         self.setCentralWidget(outer_container)
 
-    def change_page(self, index):
+    def change_page(self, index, path=None):
+        if index == 2 and path is not None:
+            self.page_detail.load_path(path)
         self.stack.setCurrentIndex(index)
 
 
