@@ -4,7 +4,7 @@ from PyQt5.QtCore import Qt
 from gui.pages.pdf_view import PDFPreview
 
 class Card(QWidget):
-    def __init__(self, page_change, name, filePath, data, count):
+    def __init__(self, page_change, name, filePath, data, count, index):
         super().__init__()
 
         self.path = filePath
@@ -74,7 +74,7 @@ class Card(QWidget):
             border-radius: 6px;
         """)
         detail_button.setMaximumWidth(100)
-        detail_button.clicked.connect(lambda: page_change(2, self.path))
+        detail_button.clicked.connect(lambda: page_change(2, self.path, index))
         footer.addWidget(detail_button)
 
         cv_button = QPushButton("View CV")

@@ -16,14 +16,16 @@ class Controller:
         self.booye = BoyerMoore()
         self.aho = AhoCorasick("APA")
         self.search = db_search(conn)
-        self.allData = self.search.getAllData()
+        Controller.allData = self.search.getAllData()
         self.mapPathAndData = {}
         self.preProcessText()
         print(f"Total applicants: {len(self.allData)}")
 
-    def getDataByIndex(self, index: int):
-        if 0 <= index < len(self.allData):
-            return self.allData[index]
+    @staticmethod
+    def getDataByIndex(index: int):
+        if 0 <= index < len(Controller.allData):
+            return dict(Controller.allData[index])
+            
         
     def preProcessText(self):
         for i, data in enumerate(self.allData):
@@ -94,5 +96,6 @@ class Controller:
         experience = regex.extract_experience()
         education = regex.extract_education()
         skill = regex.extract_skills()
-        print(education)
         return (experience, education, skill)
+    
+    

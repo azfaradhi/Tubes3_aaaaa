@@ -8,6 +8,8 @@ from utils.normalize_pdf import PDFTextConverter
 from algorithms.Regex import Regex
 
 from controller.Controller import Controller
+from database.db_config import *
+from database.db_search import *
 
 class DetailPage(QWidget):
 
@@ -56,14 +58,29 @@ class DetailPage(QWidget):
                 border-radius: 15px;
             }
         """)
-        biodata_layout = QVBoxLayout()
-        biodata_layout.addWidget(QLabel("Nama"))
-        biodata_layout.addWidget(QLabel("Birthdate"))
-        biodata_layout.addWidget(QLabel("Address"))
-        biodata_layout.addWidget(QLabel("Phone"))
-        biodata_box.setLayout(biodata_layout)
-        biodata_box.setFixedWidth(300)
-        content_layout.addWidget(biodata_box)
+        self.biodata_layout = QVBoxLayout()
+        
+        self.name_label = QLabel("Nama: -")
+        self.birthdate_label = QLabel("Birthdate: -")
+        self.address_label = QLabel("Address: -")
+        self.phone_label = QLabel("Phone: -")
+        self.biodata_layout.addWidget(self.name_label)
+        self.biodata_layout.addWidget(self.birthdate_label)
+        self.biodata_layout.addWidget(self.address_label)
+        self.biodata_layout.addWidget(self.phone_label)
+
+        self.biodata_box = QGroupBox("Biodata Diri")
+        self.biodata_box.setStyleSheet("""
+            QGroupBox {
+                font-weight: bold;
+                background-color: #D3D3D3;
+                padding: 10px;
+                border-radius: 15px;
+            }
+        """)
+        self.biodata_box.setLayout(self.biodata_layout)
+        self.biodata_box.setFixedWidth(300)
+        content_layout.addWidget(self.biodata_box)
 
         # Right Column inside Scroll Area
         right_widget = QWidget()
@@ -194,14 +211,33 @@ class DetailPage(QWidget):
             self.populate_section(self.education_layout, education, ["degree", "field", "institution", "year", "location"])
         if skill is not None:
             self.populate_section(self.skill_layout, skill)
+        if self.id is not None:
+            data_detail = (Controller.getDataByIndex(self.id))
+            self.name_label.setText(f"Nama: {data_detail['first_name'] + data_detail['last_name']}")
+            self.birthdate_label.setText(f"Birthdate: {data_detail['date_of_birth']}")
+            self.address_label.setText(f"Address: {data_detail['address']}")
+            self.phone_label.setText(f"Phone: {data_detail['phone_number']}")
+            self.biodata_box.setStyleSheet("""
+                QGroupBox {
+                    font-weight: bold;
+                    background-color: #D3D3D3;
+                    padding: 10px;
+                    border-radius: 15px;
+                }
+                QLabel {
+                    color: black;
+                }
+            """)
         return
 
     def extract_data(self, path):
         (experience, education, skill) = Controller.get_data(path)
         self.data = (experience, education, skill)
+
         
-    def load_path(self, path):
+    def load_path(self, path, index):
         self.path = path
+        self.id = index
         self.extract_data(path)
         self.update_data()
         return
