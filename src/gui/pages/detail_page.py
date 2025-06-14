@@ -4,11 +4,19 @@ from PyQt5.QtWidgets import (
     QGroupBox, QPushButton
 )
 from PyQt5.QtCore import Qt
+from utils.normalize_pdf import PDFTextConverter
+from algorithms.Regex import Regex
 
 
 class DetailPage(QWidget):
     def __init__(self, page_change):
         super().__init__()
+
+        # ------------ extracting data ------------
+
+
+        # -----------------------------------------
+
 
         main_layout = QVBoxLayout(self)
 
@@ -92,3 +100,12 @@ class DetailPage(QWidget):
         layout.addWidget(content)
         box.setLayout(layout)
         return box
+
+
+    def extract_data(self):
+        pdf_converter = PDFTextConverter(max_workers=8)
+        pdf_converter.set_pdf_path("data/HR/11763983.pdf")
+        text = pdf_converter.to_text_raw("data/HR/11763983.pdf")
+        regex = Regex(text)
+        print(regex.extract_experience())
+        return
