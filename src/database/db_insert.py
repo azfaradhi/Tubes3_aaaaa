@@ -4,7 +4,7 @@ import sys
 import os
 
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-from algorithms.Regex import Regex
+from src.algorithms.Regex import Regex
 
 regex = Regex()
 idx = 1
@@ -30,7 +30,6 @@ def process_directory(directory: Path):
                     address=data["address"],
                     phone_number=data["phone_number"]
                 )
-                profile.save()
 
                 app_detail = ApplicationDetail(
                     detail_id=idx,

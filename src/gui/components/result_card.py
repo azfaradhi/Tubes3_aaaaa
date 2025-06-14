@@ -1,7 +1,7 @@
 from PyQt5.QtWidgets import QWidget, QLabel, QVBoxLayout, QHBoxLayout, QFrame, QPushButton
 from PyQt5.QtCore import Qt
 
-from gui.pages.pdf_view import PDFPreview
+from src.gui.pages.pdf_view import PDFPreview
 
 class Card(QWidget):
     def __init__(self, page_change, name, filePath, data, count, index):

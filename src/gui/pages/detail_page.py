@@ -4,12 +4,12 @@ from PyQt5.QtWidgets import (
     QGroupBox, QPushButton, QScrollArea
 )
 from PyQt5.QtCore import Qt
-from utils.normalize_pdf import PDFTextConverter
-from algorithms.Regex import Regex
+from src.utils.normalize_pdf import PDFTextConverter
+from src.algorithms.Regex import Regex
 
-from controller.Controller import Controller
-from database.db_config import *
-from database.db_search import *
+from src.controller.Controller import Controller
+from src.database.db_config import *
+from src.database.db_search import *
 
 class DetailPage(QWidget):
 

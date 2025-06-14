@@ -4,9 +4,9 @@ from PyQt5.QtWidgets import (
     QApplication, QMainWindow, QWidget, QVBoxLayout, QStackedWidget
 )
 from PyQt5.QtGui import QFontDatabase, QFont
-from gui.pages.analyze_page import AnalyzePage
-from gui.pages.landing_page import LandingPage
-from gui.pages.detail_page import DetailPage
+from src.gui.pages.analyze_page import AnalyzePage
+from src.gui.pages.landing_page import LandingPage
+from src.gui.pages.detail_page import DetailPage
 
 
 class MainWindow(QMainWindow):

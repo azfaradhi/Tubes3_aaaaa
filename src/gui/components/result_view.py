@@ -1,6 +1,6 @@
 from PyQt5.QtWidgets import QWidget, QVBoxLayout, QLabel, QGridLayout, QScrollArea
 from PyQt5.QtCore import Qt
-from gui.components.result_card import Card
+from src.gui.components.result_card import Card
 
 class ResultsPanel(QWidget):
     def __init__(self, page_change):

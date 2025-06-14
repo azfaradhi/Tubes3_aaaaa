@@ -1,4 +1,4 @@
-from database.db_config import *
+from src.database.db_config import *
 
 class db_search:
     def __init__(self, conn):

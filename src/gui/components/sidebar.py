@@ -3,7 +3,7 @@ from PyQt5.QtWidgets import (
     QLineEdit
 )
 from PyQt5.QtCore import Qt, QPropertyAnimation
-from gui.components.radio import RadioAlgorithm
+from src.gui.components.radio import RadioAlgorithm
 
 from PyQt5.QtCore import pyqtSignal
 

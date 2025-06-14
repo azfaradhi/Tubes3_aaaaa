@@ -2,11 +2,11 @@ from PyQt5.QtWidgets import (
     QWidget, QHBoxLayout, QScrollArea
 )
 
-from gui.components.sidebar import Sidebar
-from gui.components.result_view import ResultsPanel
+from src.gui.components.sidebar import Sidebar
+from src.gui.components.result_view import ResultsPanel
 
-from controller.Controller import Controller
-from database.db_config import *
+from src.controller.Controller import Controller
+from src.database.db_config import *
 
 class AnalyzePage(QWidget):
     def __init__(self, page_change):
