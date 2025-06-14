@@ -46,7 +46,8 @@ class ResultsPanel(QWidget):
                 value['name'],
                 value['cv_path'],
                 value['keywords_count'],
-                value['count']
+                value['count'],
+                key
             )
             row = i // 2
             col = i % 2

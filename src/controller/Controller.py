@@ -117,5 +117,6 @@ class Controller:
         experience = regex.extract_experience()
         education = regex.extract_education()
         skill = regex.extract_skills()
-        print(education)
         return (experience, education, skill)
+    
+    
