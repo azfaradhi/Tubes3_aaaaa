@@ -5,8 +5,11 @@ from PyQt5.QtWidgets import (
 from PyQt5.QtCore import Qt, QPropertyAnimation
 from gui.components.radio import RadioAlgorithm
 
+from PyQt5.QtCore import pyqtSignal
 
 class Sidebar(QWidget):
+    submit_clicked = pyqtSignal()
+
     def __init__(self):
         super().__init__()
         self.expanded_width = 250
@@ -38,12 +41,12 @@ class Sidebar(QWidget):
         # ------------- Input Fields -------------
         self.label = QLabel("Keywords:")
         self.label.setStyleSheet("color: black")
-        self.text_input = QLineEdit()
-        self.text_input.setPlaceholderText("...")
-        self.text_input.setFixedHeight(30)
-        self.text_input.setStyleSheet("background-color: #ccc; border-radius: 5px;")
+        self.keyword_input = QLineEdit()
+        self.keyword_input.setPlaceholderText("...")
+        self.keyword_input.setFixedHeight(30)
+        self.keyword_input.setStyleSheet("background-color: #ccc; border-radius: 5px;")
         self.sidebar_layout.addWidget(self.label)
-        self.sidebar_layout.addWidget(self.text_input)
+        self.sidebar_layout.addWidget(self.keyword_input)
 
         self.label = QLabel("Pilih Algoritma:")
         self.label.setStyleSheet("color: black")
@@ -63,6 +66,7 @@ class Sidebar(QWidget):
         # ------------- Analyze button -------------
         self.upload_button = QPushButton("Analyze")
         self.upload_button.setStyleSheet("padding: 10px; border-radius: 15px; background-color: #ccc;")
+        self.upload_button.clicked.connect(self.submit_clicked.emit)
         self.sidebar_layout.addStretch()
         self.sidebar_layout.addWidget(self.upload_button)
 
@@ -111,3 +115,11 @@ class Sidebar(QWidget):
         self.is_expanded = not self.is_expanded
         animation.start()
         self.animation = animation
+
+
+    def get_parameter(self):
+        return (
+            self.keyword_input.text(),
+            self.toggle.get_selected_option(),
+            self.text_input.text()
+        )

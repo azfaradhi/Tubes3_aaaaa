@@ -12,7 +12,7 @@ class RadioAlgorithm(QWidget):
         layout = QVBoxLayout()
 
         # Radio buttons
-        self.radio1 = QRadioButton("KMP")
+        self.radio1 = QRadioButton("kmp")
         self.radio1.setStyleSheet("""
             QRadioButton {
                 spacing: 8px;
@@ -39,7 +39,7 @@ class RadioAlgorithm(QWidget):
             }
         """)
         
-        self.radio2 = QRadioButton("BM")
+        self.radio2 = QRadioButton("booye")
         self.radio2.setStyleSheet("""
             QRadioButton {
                 spacing: 8px;
@@ -66,7 +66,7 @@ class RadioAlgorithm(QWidget):
             }
         """)
 
-        self.radio3 = QRadioButton("Lavenstein")
+        self.radio3 = QRadioButton("aho")
         self.radio3.setStyleSheet("""
             QRadioButton {
                 spacing: 8px;
