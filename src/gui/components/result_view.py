@@ -18,7 +18,17 @@ class ResultsPanel(QWidget):
             padding: 10px;
         """)
         self.setStyleSheet("background-color: #FFFACD;")
-        outer_layout.addWidget(title)
+        self.result_time_label = QLabel("")
+        self.result_total_label = QLabel("")
+        self.result_time_label.setStyleSheet("font-size: 12px; color: #555; margin-top: 10px;")
+        self.result_total_label.setStyleSheet("font-size: 12px; color: #555; margin-top: 10px;")
+        result_layout = QVBoxLayout()
+        result_layout.addWidget(title)
+        result_layout.addWidget(self.result_time_label)
+        result_layout.addWidget(self.result_total_label)
+
+
+        outer_layout.addLayout(result_layout)
 
         scroll_area = QScrollArea()
         scroll_area.setWidgetResizable(True)
@@ -33,9 +43,7 @@ class ResultsPanel(QWidget):
         scroll_area.setWidget(content_widget)
         outer_layout.addWidget(scroll_area)
 
-    def update_result(self, data):
-        print(data)
-        # Clear existing cards
+    def update_result(self, data, time):
         while self.card_grid.count():
             child = self.card_grid.takeAt(0)
             if child.widget():
@@ -53,4 +61,7 @@ class ResultsPanel(QWidget):
             row = i // 2
             col = i % 2
             self.card_grid.addWidget(card, row, col)
+
+        self.result_time_label.setText(f"Search time: {time:.2f} ms")
+        self.result_total_label.setText(f"Total: {len(data)} item")
         return

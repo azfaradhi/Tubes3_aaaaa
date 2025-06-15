@@ -2,6 +2,7 @@ from PyQt5.QtWidgets import (
     QWidget, QLabel, QVBoxLayout, QHBoxLayout, QFrame, QPushButton, QSizePolicy,
     QLineEdit
 )
+from PyQt5.QtWidgets import QMessageBox
 from PyQt5.QtCore import Qt, QPropertyAnimation
 from src.gui.components.radio import RadioAlgorithm
 
@@ -42,7 +43,6 @@ class Sidebar(QWidget):
         self.label = QLabel("Keywords:")
         self.label.setStyleSheet("color: black; font-size: 14px;")
         self.keyword_input = QLineEdit()
-        self.keyword_input.setPlaceholderText("...")
         self.keyword_input.setFixedHeight(30)
         self.keyword_input.setStyleSheet("background-color: white; border-radius: 5px; font-size: 14px; color: black;")
         self.sidebar_layout.addWidget(self.label)
@@ -57,7 +57,6 @@ class Sidebar(QWidget):
         self.label = QLabel("Top Matches:")
         self.label.setStyleSheet("color: black; font-size: 14px;")
         self.text_input = QLineEdit()
-        self.text_input.setPlaceholderText("...")
         self.text_input.setFixedHeight(30)
         self.text_input.setStyleSheet("background-color: white; border-radius: 5px; font-size: 14px; color: black;")
         self.sidebar_layout.addWidget(self.label)
@@ -72,7 +71,7 @@ class Sidebar(QWidget):
             font-size: 14px;
             font-weight: bold;
         """)
-        self.upload_button.clicked.connect(self.submit_clicked.emit)
+        self.upload_button.clicked.connect(self.validate_and_submit)
         self.sidebar_layout.addStretch()
         self.sidebar_layout.addWidget(self.upload_button)
 
@@ -127,3 +126,19 @@ class Sidebar(QWidget):
             self.toggle.get_selected_option(),
             int(self.text_input.text())
         )
+    
+    def validate_and_submit(self):
+        keyword = self.keyword_input.text().strip()
+        algorithm = self.toggle.get_selected_option()
+        top_matches = self.text_input.text().strip()
+
+        if not keyword or not algorithm or not top_matches:
+            QMessageBox.warning(self, "Incomplete Input", "Please fill in all fields and select an algorithm.")
+            return
+
+        if not top_matches.isdigit() or int(top_matches) <= 0:
+            QMessageBox.warning(self, "Invalid Input", "Top Matches must be a positive number.")
+            return
+
+        # If all valid, emit the submit signal
+        self.submit_clicked.emit()

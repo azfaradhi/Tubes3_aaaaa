@@ -7,6 +7,7 @@ from PyQt5.QtGui import QFontDatabase, QFont
 from src.gui.pages.analyze_page import AnalyzePage
 from src.gui.pages.landing_page import LandingPage
 from src.gui.pages.detail_page import DetailPage
+from src.gui.pages.about_page import AboutUs
 
 
 class MainWindow(QMainWindow):
@@ -28,10 +29,12 @@ class MainWindow(QMainWindow):
         self.page_landing = LandingPage(self.change_page)
         self.page_analyze = AnalyzePage(self.change_page)
         self.page_detail = DetailPage(self.change_page)
+        self.page_about = AboutUs(self.change_page)
 
         self.stack.addWidget(self.page_landing)  # index 0
         self.stack.addWidget(self.page_analyze)  # index 1
         self.stack.addWidget(self.page_detail)   # index 2
+        self.stack.addWidget(self.page_about)    # index 3
 
         central_layout.addWidget(self.stack)
         outer_layout.addWidget(central_widget)
