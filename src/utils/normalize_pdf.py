@@ -30,20 +30,9 @@ class PDFTextConverter:
         return full_text
 
     def _process_page(self, page_data):
-        """
-        Fungsi helper untuk memproses satu halaman PDF
-        Args:
-            page_data: tuple (page_number, pdf_path)
-        Returns:
-            tuple (page_number, normalized_text)
-        """
         page_num, pdf_path = page_data
-        
-        # Buka PDF untuk thread ini
         doc = fitz.open(pdf_path)
         page = doc[page_num]
-        
-        # Ekstrak dan normalisasi teks
         text = page.get_text()
         text = text.lower()
         text = re.sub(r'[^a-z0-9\s]', ' ', text)
@@ -54,8 +43,7 @@ class PDFTextConverter:
 
     def to_text_normalized_multithread(self) -> str:
         if not self.pdf_path:
-            raise ValueError("PDF path tidak di-set. Gunakan set_pdf_path() terlebih dahulu.")
-        
+            raise ValueError("PDF path tidak di-set.")
         doc = fitz.open(self.pdf_path)
         total_pages = len(doc)
         doc.close()
@@ -65,13 +53,11 @@ class PDFTextConverter:
         page_results = {}
         
         with ThreadPoolExecutor(max_workers=self.max_workers) as executor:
-            # Submit semua task
             future_to_page = {
                 executor.submit(self._process_page, data): data[0] 
                 for data in page_data
             }
             
-            # Kumpulkan hasil
             for future in as_completed(future_to_page):
                 try:
                     page_num, normalized_text = future.result()
@@ -80,19 +66,14 @@ class PDFTextConverter:
                     print(f"Error processing page {future_to_page[future]}: {e}")
                     page_results[future_to_page[future]] = ""
         
-        # Gabungkan teks berdasarkan urutan halaman
         full_text = ""
         for page_num in sorted(page_results.keys()):
             full_text += page_results[page_num] + " "
         
-        # Bersihkan spasi berlebih
         full_text = ' '.join(full_text.split())
         return full_text
 
     def to_text_normalized(self) -> str:
-        """
-        Versi original (single thread) untuk perbandingan
-        """
         doc = fitz.open(self.pdf_path)
         full_text = ""
         for page in doc:
