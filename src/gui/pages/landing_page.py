@@ -1,29 +1,45 @@
-from PyQt5.QtWidgets import QWidget, QVBoxLayout, QPushButton, QHBoxLayout
+from PyQt5.QtWidgets import QWidget, QVBoxLayout, QPushButton, QHBoxLayout, QSpacerItem, QSizePolicy
 
 class LandingPage(QWidget):
 
     def __init__(self, page_change):
         super().__init__()
         layout = QVBoxLayout(self)
+        self.setStyleSheet("background-color: #FFFACD;")  
 
-        # --- CV Analyzer button centered ---
-        analyze_row = QHBoxLayout()
-        analyze_row.addStretch()
+        button_row = QHBoxLayout()
+        button_row.setSpacing(20) 
+        button_row.addStretch()
+
+        # CV Analyzer button
         self.analyze_button = QPushButton("CV Analyzer")
-        self.analyze_button.setMinimumWidth(200)
-        self.analyze_button.setStyleSheet("padding: 10px; border-radius: 15px; background-color: #ccc;")
+        self.analyze_button.setMinimumWidth(180)
+        self.analyze_button.setStyleSheet("""
+            padding: 12px;
+            font-size: 16px;
+            font-weight: bold;
+            border-radius: 15px;
+            background-color: #FFD700;
+            color: black;
+        """)
         self.analyze_button.clicked.connect(lambda: page_change(1))
-        analyze_row.addWidget(self.analyze_button)
-        analyze_row.addStretch()
-        layout.addLayout(analyze_row)
+        button_row.addWidget(self.analyze_button)
 
-        # --- About button centered ---
-        about_row = QHBoxLayout()
-        about_row.addStretch()
+        # About button
         self.about_button = QPushButton("About")
-        self.about_button.setMinimumWidth(200)
-        self.about_button.setStyleSheet("padding: 10px; border-radius: 15px; background-color: #ccc;")
+        self.about_button.setMinimumWidth(180)
+        self.about_button.setStyleSheet("""
+            padding: 12px;
+            font-size: 16px;
+            font-weight: bold;
+            border-radius: 15px;
+            background-color: #FFD700;
+            color: black;
+        """)
         self.about_button.clicked.connect(lambda: page_change(3))
-        about_row.addWidget(self.about_button)
-        about_row.addStretch()
-        layout.addLayout(about_row)
+        button_row.addWidget(self.about_button)
+
+        button_row.addStretch()
+        layout.addStretch()
+        layout.addLayout(button_row)
+        layout.addStretch()
