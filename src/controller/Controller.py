@@ -18,6 +18,7 @@ class Controller:
         self.kmp = KnuthMorris()
         self.booye = BoyerMoore()
         self.aho = AhoCorasick("APA")
+        self.levenshtein = Levenshtein()
         self.search = db_search(conn)
         Controller.allData = self.search.getAllData()
         self.crypto = ProfileEncryption("kumalalasavesta")
@@ -50,7 +51,6 @@ class Controller:
     
     def preProcessText(self):
         for i, data in enumerate(self.allData):
-            if (i < 10):
                 path = data.get('cv_path', '')
                 if path not in self.mapPathAndData:
                     self.pdf.set_pdf_path(path)
@@ -63,7 +63,6 @@ class Controller:
     def searchQuery(self, pattern: str, algorithm: str, max: int):
         results = {}
         for i, data in enumerate(self.allData):
-            if i < 10:
                 path = data.get('cv_path', '')
                 document_text = self.mapPathAndData.get(path, '')
                 if algorithm == 'kmp':
@@ -88,11 +87,10 @@ class Controller:
         if not results:
             print(f"Pattern '{pattern}' not found in any documents using KMP. Trying fuzzy matching...")
             for i, data in enumerate(self.allData):
-                if i < 10:
                     path = data.get('cv_path', '')
                     document_text = self.mapPathAndData.get(path, '')
-                    self.kmp.set_text(document_text)
-                    foundedList = Levenshtein.find_multiple_keywords_fuzzy(pattern.lower(), document_text)
+                    self.levenshtein.setText(document_text)
+                    foundedList = self.levenshtein.find_multiple_keywords_fuzzy(pattern.lower())
 
                     if foundedList:
                         results[i] = {
