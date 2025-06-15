@@ -17,8 +17,8 @@ class Card(QWidget):
         # Wrapper frame inside the card
         wrapper = QFrame()
         wrapper.setStyleSheet("""
-            background-color: white;
-            border: 1px solid #ddd;
+            background-color: #FFFACD;
+            border: 1px solid #e0c97f;
             border-radius: 6px;
         """)
 
@@ -32,12 +32,12 @@ class Card(QWidget):
         # Header
         title_bar = QHBoxLayout()
         title = QLabel(name)
-        title.setStyleSheet("color: black; border: none;")
+        title.setStyleSheet("color: black; font-size: 14px; font-weight: bold; border: none;")
         title_bar.addWidget(title)
         title_bar.addStretch()
 
         title = QLabel(f"Total: {count}")
-        title.setStyleSheet("color: black; border: none;")
+        title.setStyleSheet("color: black; font-size: 14px; font-weight: bold; border: none;")
         title_bar.addWidget(title)
         title_bar.addStretch()
 
@@ -45,19 +45,19 @@ class Card(QWidget):
 
         # Subtitle
         subtitle = QLabel("Matched Keywords: ")
-        subtitle.setStyleSheet("color: black; border: none;")
+        subtitle.setStyleSheet("color: black; font-size: 13px; font-weight: bold; border: none;")
         inner_layout.addWidget(subtitle)
         inner_layout.addStretch()
 
-
         # Matched Keywords
         for i, (key, value) in enumerate(data.items()):
-            if (value == 0): continue
+            if value == 0:
+                continue
             keywords_layout = QHBoxLayout()
             subtitle = QLabel(f"{key}:")
             subtitle_2 = QLabel(f"{value} occurences")
-            subtitle.setStyleSheet("color: black; border: none;")
-            subtitle_2.setStyleSheet("color: black; border: none;")
+            subtitle.setStyleSheet("color: black; font-size: 13px; border: none;")
+            subtitle_2.setStyleSheet("color: black; font-size: 13px; border: none;")
             keywords_layout.addWidget(subtitle)
             keywords_layout.addWidget(subtitle_2)
 
@@ -70,8 +70,11 @@ class Card(QWidget):
         detail_button = QPushButton("Detail")
         detail_button.setStyleSheet("""
             color: black;
-            background-color: #ddd;
+            background-color: #FFD700;
+            font-size: 13px;
+            font-weight: bold;
             border-radius: 6px;
+            padding: 4px 8px;
         """)
         detail_button.setMaximumWidth(100)
         detail_button.clicked.connect(lambda: page_change(2, self.path, index))
@@ -80,15 +83,18 @@ class Card(QWidget):
         cv_button = QPushButton("View CV")
         cv_button.setStyleSheet("""
             color: black;
-            background-color: #ddd;
+            background-color: #FFD700;
+            font-size: 13px;
+            font-weight: bold;
             border-radius: 6px;
+            padding: 4px 8px;
         """)
         cv_button.setMaximumWidth(100)
         cv_button.clicked.connect(self.show_pdf)
         footer.addWidget(cv_button)
 
         inner_layout.addLayout(footer)
-    
+
     def show_pdf(self):
         self.pdf_window = PDFPreview(self.path)
         self.pdf_window.show()

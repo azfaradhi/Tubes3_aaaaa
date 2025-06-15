@@ -21,7 +21,7 @@ class MainWindow(QMainWindow):
         outer_layout.setContentsMargins(80, 80, 80, 80)
 
         central_widget = QWidget()
-        central_widget.setStyleSheet("background-color: #F4F4F4; border-radius: 15px;")
+        central_widget.setStyleSheet("background-color: white; border-radius: 15px;")
         central_layout = QVBoxLayout(central_widget)
 
         self.stack = QStackedWidget()

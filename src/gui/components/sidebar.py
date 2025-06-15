@@ -21,7 +21,7 @@ class Sidebar(QWidget):
 
         # Layout
         self.wrapper = QFrame(self)
-        self.wrapper.setStyleSheet("background-color: #EEEEEE;")
+        self.wrapper.setStyleSheet("background-color: #FFFACD;")
         self.wrapper.setGeometry(0, 0, self.expanded_width, self.height())
 
         self.sidebar_layout = QVBoxLayout()
@@ -32,7 +32,7 @@ class Sidebar(QWidget):
         self.title = QLabel("CV Analyzer App")
         self.title.setAlignment(Qt.AlignCenter)
         self.title.setStyleSheet("""
-            font-size: 18pt;
+            font-size: 20pt;
             font-weight: bold;
             color: #2c3e50;
         """)
@@ -40,32 +40,38 @@ class Sidebar(QWidget):
 
         # ------------- Input Fields -------------
         self.label = QLabel("Keywords:")
-        self.label.setStyleSheet("color: black")
+        self.label.setStyleSheet("color: black; font-size: 14px;")
         self.keyword_input = QLineEdit()
         self.keyword_input.setPlaceholderText("...")
         self.keyword_input.setFixedHeight(30)
-        self.keyword_input.setStyleSheet("background-color: #ccc; border-radius: 5px;")
+        self.keyword_input.setStyleSheet("background-color: white; border-radius: 5px; font-size: 14px; color: black;")
         self.sidebar_layout.addWidget(self.label)
         self.sidebar_layout.addWidget(self.keyword_input)
 
         self.label = QLabel("Pilih Algoritma:")
-        self.label.setStyleSheet("color: black")
+        self.label.setStyleSheet("color: black; font-size: 14px;")
         self.toggle = RadioAlgorithm()
         self.sidebar_layout.addWidget(self.label)
         self.sidebar_layout.addWidget(self.toggle)
 
         self.label = QLabel("Top Matches:")
-        self.label.setStyleSheet("color: black")
+        self.label.setStyleSheet("color: black; font-size: 14px;")
         self.text_input = QLineEdit()
         self.text_input.setPlaceholderText("...")
         self.text_input.setFixedHeight(30)
-        self.text_input.setStyleSheet("background-color: #ccc; border-radius: 5px;")
+        self.text_input.setStyleSheet("background-color: white; border-radius: 5px; font-size: 14px; color: black;")
         self.sidebar_layout.addWidget(self.label)
         self.sidebar_layout.addWidget(self.text_input)
 
         # ------------- Analyze button -------------
         self.upload_button = QPushButton("Analyze")
-        self.upload_button.setStyleSheet("padding: 10px; border-radius: 15px; background-color: #ccc;")
+        self.upload_button.setStyleSheet("""
+            padding: 10px;
+            border-radius: 15px;
+            background-color: #FFD700;
+            font-size: 14px;
+            font-weight: bold;
+        """)
         self.upload_button.clicked.connect(self.submit_clicked.emit)
         self.sidebar_layout.addStretch()
         self.sidebar_layout.addWidget(self.upload_button)
@@ -77,12 +83,12 @@ class Sidebar(QWidget):
         self.toggle_button.raise_()
         self.toggle_button.setStyleSheet("""
             QPushButton {
-                background-color: #EEEEEE;
+                background-color: #FFFACD;
                 border: none;
                 font-size: 16px;
             }
             QPushButton:pressed {
-                background-color: #EEEEEE;
+                background-color: #FFEFD5;
             }
             QPushButton:focus {
                 outline: none;
@@ -91,7 +97,6 @@ class Sidebar(QWidget):
 
     def resizeEvent(self, event):
         super().resizeEvent(event)
-
         self.wrapper.setGeometry(0, 0, self.width() - 20, self.height())
         y = self.height() // 2 - self.toggle_button.height() // 2
         x = self.width() - (self.toggle_button.width() // 2)
@@ -115,7 +120,6 @@ class Sidebar(QWidget):
         self.is_expanded = not self.is_expanded
         animation.start()
         self.animation = animation
-
 
     def get_parameter(self):
         return (

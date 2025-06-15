@@ -10,18 +10,19 @@ class ResultsPanel(QWidget):
 
         title = QLabel("Result")
         title.setAlignment(Qt.AlignCenter)
-        title.setStyleSheet(
-            "color: #2c3e50;" \
-            "font-size: 16pt; " \
-            "font-weight: bold;" \
-            "text-align: center;"
-        )
-        self.setStyleSheet("background: transparent;")
+        title.setStyleSheet("""
+            color: #2c3e50;
+            font-size: 20pt;
+            font-weight: bold;
+            text-align: center;
+            padding: 10px;
+        """)
+        self.setStyleSheet("background-color: #FFFACD;")
         outer_layout.addWidget(title)
 
         scroll_area = QScrollArea()
         scroll_area.setWidgetResizable(True)
-        scroll_area.setStyleSheet("background: transparent;")
+        scroll_area.setStyleSheet("background: transparent; border: none;")
 
         content_widget = QWidget()
         self.card_grid = QGridLayout(content_widget)
@@ -34,7 +35,7 @@ class ResultsPanel(QWidget):
 
     def update_result(self, data):
         print(data)
-        # Delete data sebelum
+        # Clear existing cards
         while self.card_grid.count():
             child = self.card_grid.takeAt(0)
             if child.widget():
