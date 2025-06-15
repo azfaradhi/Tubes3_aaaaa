@@ -1,7 +1,7 @@
 from PyQt5.QtWidgets import (
     QWidget, QHBoxLayout, QScrollArea
 )
-
+import time
 from src.gui.components.sidebar import Sidebar
 from src.gui.components.result_view import ResultsPanel
 
@@ -33,7 +33,9 @@ class AnalyzePage(QWidget):
         layout.addWidget(scroll_area)
 
     def submit(self):
+        start_time = time.time()
         (keyword, toggle, maxs) = self.sidebar.get_parameter()
         self.data = self.controller.searchQuery(keyword, toggle, maxs)
-        print(self.data)
-        self.results.update_result(self.data)
+        end_time = time.time()
+        elapsed_ms = (end_time - start_time) * 1000
+        self.results.update_result(self.data, elapsed_ms)
