@@ -72,8 +72,6 @@ This extracted information is then presented in a clean, easy-to-read summary pa
 ├── requirements.txt
 └── utils
     ├── normalize_pdf.py
-
-
 ```
 
 
@@ -107,7 +105,7 @@ This extracted information is then presented in a clean, easy-to-read summary pa
 ## Author
 | **NIM**  | **Nama Anggota**               | **Github** |
 | -------- | ------------------------------ | ---------- |
-| 13523095 | Rafif Farras              | [grwna](https://github.com/rafifrs) |
+| 13523095 | Rafif Farras              | [rafifrs](https://github.com/rafifrs) |
 | 13523101 | Barru Adi Utomo           | [barruadi](https://github.com/barruadi) | 
 | 13523115 | Azfa Radhiyya Hakim    | [azfaradhi](https://github.com/azfaradhi) |
 
