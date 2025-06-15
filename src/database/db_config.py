@@ -3,6 +3,7 @@ from mysql.connector import Error
 
 def connect():
     try:
+        # harusnya pakai env tapi biarin dah
         conn = mysql.connector.connect(
             host="localhost",
             user="root",
