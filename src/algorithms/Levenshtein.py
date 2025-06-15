@@ -1,5 +1,12 @@
 
 class Levenshtein:
+
+    def __init__(self,):
+        self.text = ""
+    
+    def setText(self, text):
+        self.text = text
+
     def levenshteinFullMatrix(str1, str2):
         m = len(str1)
         n = len(str2)
@@ -117,23 +124,21 @@ class Levenshtein:
             'similarity': int(match['similarity'] * 100)
         } for match in results]
     
-    @staticmethod
-    def search_levenhstein_from_long_string(str1, text, threshold=0.75):
-        if not str1 or not text:
+    def search_levenhstein_from_long_string(self, str1, threshold=0.75):
+        if not str1 or not self.text:
             return []
 
         str1 = str1.lower().strip()
-        text = text.lower().strip()
 
         pattern_len = len(str1)
         matches = []
 
         window_range = range(max(1, pattern_len - 3), pattern_len + 4)
-        text_len = len(text)
+        text_len = len(self.text)
 
         for window_size in window_range:
             for i in range(text_len - window_size + 1):
-                substring = text[i:i + window_size]
+                substring = self.text[i:i + window_size]
 
                 if substring == str1:
                     continue
@@ -144,7 +149,6 @@ class Levenshtein:
                 if similarity >= threshold:
                     is_duplicate = False
                     for j, match in enumerate(matches):
-                        # Jika overlap dan similarity baru lebih bagus, replace
                         if (i < match['start'] + match['length'] and i + window_size > match['start']):
                             if similarity > match['similarity']:
                                 matches[j] = {
@@ -168,31 +172,22 @@ class Levenshtein:
             'start': m['start'],
             'length': m['length'],
             'similarity': round(m['similarity'] * 100, 2),
-            'match_text': text[m['start']:m['start'] + m['length']]
+            'match_text': self.text[m['start']:m['start'] + m['length']]
         } for m in matches]
-
-    @staticmethod
-    def find_multiple_keywords_fuzzy(keywords_str: str, text: str, threshold=0.75):
-        """
-        Mencari beberapa keyword secara fuzzy dan mengembalikan jumlah kemunculan
-        dalam format dictionary, mirip dengan fungsi pencarian lainnya.
-        """
-        # 1. Pisahkan string input menjadi daftar keyword
+    
+    def find_multiple_keywords_fuzzy(self, keywords_str: str, threshold=0.75):
         keywords = [keyword.strip() for keyword in keywords_str.split(',')]
         
         keyword_counts = {}
 
-        # 2. Loop untuk setiap keyword
         for keyword in keywords:
             if not keyword:
                 continue
             
-            # 3. Panggil fungsi pencarian fuzzy yang sudah ada untuk satu keyword
-            fuzzy_matches = Levenshtein.search_levenhstein_from_long_string(
-                keyword, text, threshold
+            fuzzy_matches = self.search_levenhstein_from_long_string(
+                keyword, threshold
             )
             
-            # 4. Jika ada hasil, hitung jumlahnya dan simpan
             if fuzzy_matches:
                 keyword_counts[keyword] = len(fuzzy_matches)
                 
