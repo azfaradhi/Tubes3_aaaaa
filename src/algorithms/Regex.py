@@ -268,7 +268,7 @@ class Regex:
                 
                 educations.append(entry)
             
-        return 
+        return educations
     
 # pdf_converter = PDFTextConverter(max_workers=8)
 # pdf_converter.set_pdf_path("data/HR/11763983.pdf")
